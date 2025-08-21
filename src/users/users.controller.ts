@@ -3,13 +3,17 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
+  ParseUUIDPipe,
   Patch,
   Post,
 } from '@nestjs/common';
 import { UsersService } from './providers/users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { BulkCreateUserDto } from './dto/bulk-create-user.dto';
+import { BulkDeleteDto } from './dto/bulk-delete-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -45,13 +49,15 @@ export class UsersController {
     return 'This action updates multiple users';
   }
 
-  @Delete(':id')
-  remove(): string {
-    return 'This action removes a user';
+  @Delete('bulk')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  removeBulk(@Body() bulkDeleteDto: BulkDeleteDto) {
+    return this.usersService.deleteBulkUsers(bulkDeleteDto);
   }
 
-  @Delete('/bulk')
-  removeBulk(): string {
-    return 'This action removes multiple users';
+  @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  remove(@Param('id', new ParseUUIDPipe()) id: string) {
+    return this.usersService.deleteUser(id);
   }
 }

@@ -9,6 +9,7 @@ import { User } from '../user.entity';
 import { In, Repository } from 'typeorm';
 import { BulkCreateUserDto } from '../dto/bulk-create-user.dto';
 import { isDbError } from 'src/utils/isDbError.util';
+import { BulkDeleteDto } from '../dto/bulk-delete-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -67,5 +68,20 @@ export class UsersService {
 
   async findOne(id: string): Promise<User | null> {
     return await this.userRepository.findOneBy({ id });
+  }
+
+  async deleteUser(id: string): Promise<void> {
+    const result = await this.userRepository.delete(id);
+    if (result.affected === 0) {
+      throw new InternalServerErrorException(`User with id ${id} not found`);
+    }
+  }
+  async deleteBulkUsers(bulkDeleteDto: BulkDeleteDto): Promise<void> {
+    const result = await this.userRepository.delete(bulkDeleteDto.ids);
+    if (result.affected === 0) {
+      throw new InternalServerErrorException(
+        `No users found for the provided ids: ${bulkDeleteDto.ids.join(', ')}`,
+      );
+    }
   }
 }
