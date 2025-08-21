@@ -10,6 +10,7 @@ import { In, Repository } from 'typeorm';
 import { BulkCreateUserDto } from '../dto/bulk-create-user.dto';
 import { isDbError } from 'src/utils/isDbError.util';
 import { BulkDeleteDto } from '../dto/bulk-delete-user.dto';
+import { UpdateUserDto } from '../dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -68,6 +69,21 @@ export class UsersService {
 
   async findOne(id: string): Promise<User | null> {
     return await this.userRepository.findOneBy({ id });
+  }
+
+  async updateUser(updateUserDto: UpdateUserDto): Promise<User> {
+    const user = await this.userRepository.preload(updateUserDto);
+    if (!user) {
+      throw new InternalServerErrorException(
+        `User with id ${updateUserDto.id} not found`,
+      );
+    }
+
+    try {
+      return await this.userRepository.save(user);
+    } catch {
+      throw new InternalServerErrorException('Failed to update user');
+    }
   }
 
   async deleteUser(id: string): Promise<void> {

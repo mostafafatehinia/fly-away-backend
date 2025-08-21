@@ -14,6 +14,7 @@ import { UsersService } from './providers/users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { BulkCreateUserDto } from './dto/bulk-create-user.dto';
 import { BulkDeleteDto } from './dto/bulk-delete-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -39,14 +40,9 @@ export class UsersController {
     return this.usersService.createBulkUsers(bulkCreateUserDtos);
   }
 
-  @Patch(':id')
-  update(): string {
-    return 'This action updates a user';
-  }
-
-  @Patch('/bulk')
-  updateBulk(): string {
-    return 'This action updates multiple users';
+  @Patch()
+  update(@Body() updateUserDto: UpdateUserDto) {
+    return this.usersService.updateUser(updateUserDto);
   }
 
   @Delete('bulk')
