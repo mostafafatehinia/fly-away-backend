@@ -2,8 +2,6 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 
 import appConfig from './configs/app.config';
@@ -13,8 +11,6 @@ import { environmentConfigValidation } from './validations/environment.validatio
 const ENV = process.env.NODE_ENV;
 
 @Module({
-  controllers: [AppController],
-  providers: [AppService],
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
