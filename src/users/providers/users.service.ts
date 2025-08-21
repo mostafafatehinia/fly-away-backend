@@ -60,4 +60,12 @@ export class UsersService {
       throw new InternalServerErrorException('Failed to create users');
     }
   }
+
+  async findAll(): Promise<User[]> {
+    return this.userRepository.find();
+  }
+
+  async findOne(id: string): Promise<User | null> {
+    return await this.userRepository.findOneBy({ id });
+  }
 }
