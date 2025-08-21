@@ -1,7 +1,12 @@
-import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Patch, Post } from '@nestjs/common';
+import { UsersService } from './providers/users.service';
+import { CreateUserDto } from './dto/create-user.dto';
+import { BulkCreateUserDto } from './dto/bulk-create-user.dto';
 
 @Controller('users')
 export class UsersController {
+  constructor(private readonly usersService: UsersService) {}
+
   @Get()
   findAll(): string {
     return 'This action returns all users';
@@ -12,13 +17,13 @@ export class UsersController {
   }
 
   @Post()
-  create(): string {
-    return 'This action adds a new user';
+  create(@Body() createUserDto: CreateUserDto) {
+    return this.usersService.createUser(createUserDto);
   }
 
   @Post('/bulk')
-  createBulk(): string {
-    return 'This action adds multiple new users';
+  createBulk(@Body() bulkCreateUserDtos: BulkCreateUserDto) {
+    return this.usersService.createBulkUsers(bulkCreateUserDtos);
   }
 
   @Patch(':id')
