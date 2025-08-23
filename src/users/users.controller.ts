@@ -9,6 +9,8 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
+  UseInterceptors,
+  ClassSerializerInterceptor,
 } from '@nestjs/common';
 import { UsersService } from './providers/users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -43,6 +45,7 @@ export class UsersController {
     description: 'User has been created',
   })
   @Post()
+  @UseInterceptors(ClassSerializerInterceptor)
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.createUser(createUserDto);
   }
