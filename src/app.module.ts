@@ -6,7 +6,9 @@ import { UsersModule } from './users/users.module';
 
 import appConfig from './configs/app.config';
 import dbConfig from './configs/database.config';
+import jwtConfig from './configs/jwt.config';
 import { environmentConfigValidation } from './validations/environment.validation';
+import { AuthModule } from './auth/auth.module';
 
 const ENV = process.env.NODE_ENV;
 
@@ -14,7 +16,7 @@ const ENV = process.env.NODE_ENV;
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [appConfig, dbConfig],
+      load: [appConfig, dbConfig, jwtConfig],
       validationSchema: environmentConfigValidation,
       envFilePath: ENV === 'development' ? '.env.local' : `.env.${ENV}`,
     }),
@@ -35,6 +37,7 @@ const ENV = process.env.NODE_ENV;
       },
     }),
     UsersModule,
+    AuthModule,
   ],
 })
 export class AppModule {}
