@@ -11,9 +11,10 @@ import { AuthService } from './providers/auth.service';
 import { SignInDto } from './dto/signIn.dto';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { RefreshTokenDto } from './dto/refreshToken.dto';
-import { ApiOperation, ApiResponse, OmitType } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { SignInResponse } from './interface/signIn.response.interface';
 import { UserResponse } from 'src/users/interface/createUser.response';
+import { RefreshTokenResponse } from './interface/refreshToken.response';
 
 @Controller('auth')
 export class AuthController {
@@ -54,7 +55,7 @@ export class AuthController {
     description: 'Refresh user token based on given access token',
   })
   @ApiResponse({
-    type: OmitType(SignInResponse, ['refresh'] as const),
+    type: RefreshTokenResponse,
     status: HttpStatus.OK,
     description: 'Successfuly refreshed token',
   })
