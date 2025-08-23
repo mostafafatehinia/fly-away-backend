@@ -20,10 +20,6 @@ export class UsersService {
   ) {}
 
   async createUser(createUserDto: CreateUserDto): Promise<User> {
-    const hashedPassword = await this.bcryptService.hash(
-      createUserDto.password,
-    );
-    createUserDto.password = hashedPassword;
     const user = this.userRepository.create(createUserDto);
 
     try {
@@ -40,6 +36,10 @@ export class UsersService {
 
   async findOne(id: string): Promise<User | null> {
     return await this.userRepository.findOneBy({ id });
+  }
+
+  async findOneByEmail(email: string): Promise<User | null> {
+    return await this.userRepository.findOneBy({ email });
   }
 
   async updateUser(id: string, updateUserDto: UpdateUserDto): Promise<User> {

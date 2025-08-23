@@ -35,7 +35,6 @@ export class User {
 
   @Column({
     type: 'varchar',
-    select: false,
   })
   @Exclude()
   password: string;

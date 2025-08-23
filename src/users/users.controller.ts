@@ -16,6 +16,7 @@ import { UsersService } from './providers/users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { UserResponse } from './interface/createUser.response';
 
 @Controller('users')
 export class UsersController {
@@ -40,7 +41,7 @@ export class UsersController {
     description: 'Create a new user account with the provided information',
   })
   @ApiResponse({
-    type: CreateUserDto,
+    type: UserResponse,
     status: HttpStatus.CREATED,
     description: 'User has been created',
   })
@@ -55,7 +56,7 @@ export class UsersController {
     description: 'Update an existing user account with new information',
   })
   @ApiResponse({
-    type: UpdateUserDto,
+    type: UserResponse,
     status: HttpStatus.OK,
     description: 'User has been updated',
   })
