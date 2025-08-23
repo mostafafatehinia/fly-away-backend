@@ -9,15 +9,21 @@ import { User } from '../user.entity';
 import { Repository } from 'typeorm';
 import { isDbError } from 'src/utils/isDbError.util';
 import { UpdateUserDto } from '../dto/update-user.dto';
+import { BcryptService } from 'src/auth/providers/bcrypt.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    private readonly bcryptService: BcryptService,
   ) {}
 
   async createUser(createUserDto: CreateUserDto): Promise<User> {
+    const hashedPassword = await this.bcryptService.hash(
+      createUserDto.password,
+    );
+    createUserDto.password = hashedPassword;
     const user = this.userRepository.create(createUserDto);
 
     try {
@@ -37,7 +43,13 @@ export class UsersService {
   }
 
   async updateUser(id: string, updateUserDto: UpdateUserDto): Promise<User> {
-    const user = await this.userRepository.preload(updateUserDto);
+    const user = await this.userRepository.preload({
+      ...updateUserDto,
+      password: updateUserDto.password
+        ? await this.bcryptService.hash(updateUserDto.password)
+        : undefined,
+    });
+
     if (!user) {
       throw new InternalServerErrorException(`User with id ${id} not found`);
     }
