@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { TokenService } from './token.service';
 import { SignInDto } from '../dto/signIn.dto';
 import { UsersService } from 'src/users/providers/users.service';
@@ -16,7 +16,7 @@ export class AuthService {
   async signIn(signInDto: SignInDto) {
     const user = await this.usersService.findOneByEmail(signInDto.email);
     if (!user) {
-      throw new UnauthorizedException('Invalid email or password');
+      throw new BadRequestException('Invalid email or password');
     }
 
     const isPasswordValid = await this.bcryptService.compare(
@@ -25,22 +25,18 @@ export class AuthService {
     );
 
     if (!isPasswordValid) {
-      throw new UnauthorizedException('Invalid email or password');
+      throw new BadRequestException('Invalid email or password');
     }
 
     return this.tokenService.signIn(user);
   }
 
   async signUp(createUserDto: CreateUserDto) {
-    try {
-      const hashedPassword = await this.bcryptService.hash(
-        createUserDto.password,
-      );
-      createUserDto.password = hashedPassword;
-      return await this.usersService.createUser(createUserDto);
-    } catch {
-      throw new UnauthorizedException('Error while creating user');
-    }
+    const hashedPassword = await this.bcryptService.hash(
+      createUserDto.password,
+    );
+    createUserDto.password = hashedPassword;
+    return this.usersService.createUser(createUserDto);
   }
 
   async refreshToken(refresh: string) {
