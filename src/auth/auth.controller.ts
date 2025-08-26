@@ -15,6 +15,8 @@ import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { SignInResponse } from './interface/signIn.response.interface';
 import { UserResponse } from 'src/users/interface/createUser.response';
 import { RefreshTokenResponse } from './interface/refreshToken.response';
+import { Auth } from './decorators/auth.decorator';
+import { AuthType } from './enums/authType.enum';
 
 @Controller('auth')
 export class AuthController {
@@ -30,6 +32,7 @@ export class AuthController {
     description: 'Successfuly signed in',
   })
   @HttpCode(HttpStatus.OK)
+  @Auth(AuthType.Public)
   @Post('sign-in')
   signIn(@Body() signInDto: SignInDto) {
     return this.authService.signIn(signInDto);
@@ -45,6 +48,7 @@ export class AuthController {
     description: 'Successfuly signed up',
   })
   @UseInterceptors(ClassSerializerInterceptor)
+  @Auth(AuthType.Public)
   @Post('sign-up')
   signUp(@Body() createUserDto: CreateUserDto) {
     return this.authService.signUp(createUserDto);
@@ -60,6 +64,7 @@ export class AuthController {
     description: 'Successfuly refreshed token',
   })
   @HttpCode(HttpStatus.OK)
+  @Auth(AuthType.Public)
   @Post('refresh-token')
   refreshToken(@Body() refreshTokenDto: RefreshTokenDto) {
     return this.authService.refreshToken(refreshTokenDto.refresh);
