@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Post, Query } from '@nestjs/common';
 import { LocationService } from './providers/location.service';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Auth } from 'src/auth/decorators/auth.decorator';
@@ -16,6 +16,7 @@ export class LocationController {
     description: 'Get all locations',
   })
   @ApiResponse({
+    status: HttpStatus.OK,
     type: [CreateLocationDto],
     description: 'Successful get locations',
   })
@@ -30,6 +31,7 @@ export class LocationController {
     description: 'Create a new location',
   })
   @ApiResponse({
+    status: HttpStatus.CREATED,
     type: Location,
     description: 'Successful create location',
   })

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Post } from '@nestjs/common';
 import { AirportService } from './providers/airport.service';
 import { CreateAirportDto } from './dto/create-airport.dto';
 import { Auth } from 'src/auth/decorators/auth.decorator';
@@ -15,6 +15,7 @@ export class AirportController {
     description: 'Get all airports',
   })
   @ApiResponse({
+    status: HttpStatus.OK,
     type: [CreateAirportDto],
     description: 'Successful get airports',
   })
@@ -29,7 +30,7 @@ export class AirportController {
     description: 'Create a new airport',
   })
   @ApiResponse({
-    status: 201,
+    status: HttpStatus.CREATED,
     type: Airport,
     description: 'Successful create airport',
   })
