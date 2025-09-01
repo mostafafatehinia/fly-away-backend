@@ -1,10 +1,11 @@
-import { Body, Controller, Get, HttpStatus, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Post, Query } from '@nestjs/common';
 import { AirportService } from './providers/airport.service';
 import { CreateAirportDto } from './dto/create-airport.dto';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { AuthType } from 'src/auth/enums/authType.enum';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Airport } from './airport.entity';
+import { AirportParamDto } from './dto/airport-param.dto';
 
 @Controller('airport')
 export class AirportController {
@@ -21,8 +22,8 @@ export class AirportController {
   })
   @Auth(AuthType.Public)
   @Get()
-  findAll() {
-    return this.airportService.findAll();
+  findAll(@Query() { search }: AirportParamDto) {
+    return this.airportService.findAll(search);
   }
 
   @ApiOperation({

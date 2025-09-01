@@ -4,7 +4,7 @@ import {
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { Raw, Repository } from 'typeorm';
 import { Airport } from '../airport.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateAirportDto } from '../dto/create-airport.dto';
@@ -19,8 +19,12 @@ export class AirportService {
     private readonly locationService: LocationService,
   ) {}
 
-  async findAll(): Promise<Airport[]> {
-    return this.airportRepository.find();
+  async findAll(search?: string): Promise<Airport[]> {
+    return this.airportRepository.find({
+      where: search
+        ? { name: Raw((alias) => `LOWER(${alias}) ILike '%${search}%'`) }
+        : undefined,
+    });
   }
 
   async create(createAirportDto: CreateAirportDto): Promise<Airport> {
