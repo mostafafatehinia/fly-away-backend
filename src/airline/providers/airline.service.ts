@@ -19,7 +19,9 @@ export class AirlineService {
 
   async findAll({ search }: AirlineParamDto): Promise<Airline[]> {
     return this.airlineRepository.find({
-      where: { name: Raw((alias) => `LOWER(${alias}) ILike '%${search}%'`) },
+      where: search
+        ? { name: Raw((alias) => `LOWER(${alias}) ILike '%${search}%'`) }
+        : undefined,
     });
   }
 

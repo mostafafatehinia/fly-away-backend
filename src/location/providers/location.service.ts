@@ -13,7 +13,15 @@ export class LocationService {
 
   findAll(search?: string) {
     return this.locationRepository.find({
-      where: { name: Raw((alias) => `LOWER(${alias}) ILike '%${search}%'`) },
+      where: search
+        ? { name: Raw((alias) => `LOWER(${alias}) ILike '%${search}%'`) }
+        : undefined,
+    });
+  }
+
+  async findById(id: string): Promise<Location | null> {
+    return await this.locationRepository.findOne({
+      where: { id },
     });
   }
 

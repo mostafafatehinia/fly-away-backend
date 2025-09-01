@@ -5,6 +5,7 @@ import { Auth } from 'src/auth/decorators/auth.decorator';
 import { AuthType } from 'src/auth/enums/authType.enum';
 import { LocationParamDto } from './dto/location-param.dto';
 import { CreateLocationDto } from './dto/create-location.dto';
+import { Location } from './location.entity';
 
 @Controller('location')
 export class LocationController {
@@ -29,10 +30,9 @@ export class LocationController {
     description: 'Create a new location',
   })
   @ApiResponse({
-    type: CreateLocationDto,
+    type: Location,
     description: 'Successful create location',
   })
-  @Auth(AuthType.Public)
   @Post()
   createLocation(@Body() createLocationDto: CreateLocationDto) {
     return this.locationService.createLocation(createLocationDto);
