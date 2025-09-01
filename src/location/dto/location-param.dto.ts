@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional, IsString } from 'class-validator';
 
-export class GetLocationParamDto {
+export class LocationParamDto {
   @ApiProperty({
     description: 'Location name',
     example: 'qazvin',
