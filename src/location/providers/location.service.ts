@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Raw, Repository } from 'typeorm';
 import { Location } from '../location.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateLocationDto } from '../dto/createLocation.dto';
+import { CreateLocationDto } from '../dto/create-location.dto';
 
 @Injectable()
 export class LocationService {
@@ -11,7 +11,7 @@ export class LocationService {
     private readonly locationRepository: Repository<Location>,
   ) {}
 
-  getLocations(search?: string) {
+  findAll(search?: string) {
     return this.locationRepository.find({
       where: { name: Raw((alias) => `LOWER(${alias}) ILike '%${search}%'`) },
     });

@@ -13,6 +13,7 @@ import { AuthenticationGuard } from './auth/guards/authentication/authentication
 import { APP_GUARD } from '@nestjs/core';
 import { AccessTokenGuard } from './auth/guards/access-token/access-token.guard';
 import { LocationModule } from './location/location.module';
+import { AirlineModule } from './airline/airline.module';
 
 const ENV = process.env.NODE_ENV;
 
@@ -43,6 +44,7 @@ const ENV = process.env.NODE_ENV;
     UsersModule,
     AuthModule,
     LocationModule,
+    AirlineModule,
   ],
   providers: [
     { provide: APP_GUARD, useClass: AuthenticationGuard },

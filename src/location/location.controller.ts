@@ -3,8 +3,8 @@ import { LocationService } from './providers/location.service';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { AuthType } from 'src/auth/enums/authType.enum';
-import { GetLocationParamDto } from './dto/getLocationParam.dto';
-import { CreateLocationDto } from './dto/createLocation.dto';
+import { LocationParamDto } from './dto/location-param.dto';
+import { CreateLocationDto } from './dto/create-location.dto';
 
 @Controller('location')
 export class LocationController {
@@ -20,8 +20,8 @@ export class LocationController {
   })
   @Auth(AuthType.Public)
   @Get()
-  getLocations(@Query() { search }: GetLocationParamDto) {
-    return this.locationService.getLocations(search);
+  findAll(@Query() { search }: LocationParamDto) {
+    return this.locationService.findAll(search);
   }
 
   @ApiOperation({
