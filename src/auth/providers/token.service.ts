@@ -39,6 +39,14 @@ export class TokenService {
     }
   }
 
+  async parseToken(token: string): Promise<{ role: string }> {
+    try {
+      return await this.jwtService.decode(token);
+    } catch {
+      throw new UnauthorizedException('Invalid token');
+    }
+  }
+
   async signIn(user: User): Promise<SignInResponse> {
     const access = await this.generateToken(user, 'access');
     const refresh = await this.generateToken(user, 'refresh');

@@ -5,21 +5,24 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Request } from 'express';
-import { Observable } from 'rxjs';
 import { TokenService } from 'src/auth/providers/token.service';
 
 @Injectable()
 export class AccessTokenGuard implements CanActivate {
   constructor(private readonly tokenService: TokenService) {}
 
-  canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<Request>();
     const [, accessToken] = request.headers.authorization?.split(' ') ?? [];
 
     if (!accessToken) {
       throw new UnauthorizedException('Access token is required');
+    }
+
+    const { role } = await this.tokenService.parseToken(accessToken);
+
+    if (!role) {
+      throw new UnauthorizedException('Invalid access token');
     }
 
     try {
