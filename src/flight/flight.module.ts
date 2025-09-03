@@ -10,5 +10,6 @@ import { AirportModule } from 'src/airport/airport.module';
   imports: [TypeOrmModule.forFeature([Flight]), AirlineModule, AirportModule],
   controllers: [FlightController],
   providers: [FlightService],
+  exports: [FlightService],
 })
 export class FlightModule {}
