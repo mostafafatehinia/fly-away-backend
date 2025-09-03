@@ -25,6 +25,10 @@ export class AirlineService {
     });
   }
 
+  async findById(id: string) {
+    return await this.airlineRepository.findOneBy({ id });
+  }
+
   async create({ name }: CreateAirlineDto): Promise<Airline | undefined> {
     const airline = this.airlineRepository.create({ name });
     try {

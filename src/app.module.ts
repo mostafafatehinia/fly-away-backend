@@ -15,6 +15,7 @@ import { AccessTokenGuard } from './auth/guards/access-token/access-token.guard'
 import { LocationModule } from './location/location.module';
 import { AirlineModule } from './airline/airline.module';
 import { AirportModule } from './airport/airport.module';
+import { FlightModule } from './flight/flight.module';
 
 const ENV = process.env.NODE_ENV;
 
@@ -47,6 +48,7 @@ const ENV = process.env.NODE_ENV;
     LocationModule,
     AirlineModule,
     AirportModule,
+    FlightModule,
   ],
   providers: [
     { provide: APP_GUARD, useClass: AuthenticationGuard },

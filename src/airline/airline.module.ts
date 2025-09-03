@@ -6,6 +6,7 @@ import { Airline } from './airline.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Airline])],
+  exports: [AirlineService],
   controllers: [AirlineController],
   providers: [AirlineService],
 })
