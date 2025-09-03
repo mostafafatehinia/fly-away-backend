@@ -27,6 +27,10 @@ export class AirportService {
     });
   }
 
+  async findById(id: string) {
+    return await this.airportRepository.findOneBy({ id });
+  }
+
   async create(createAirportDto: CreateAirportDto): Promise<Airport> {
     const location = await this.locationService.findById(
       createAirportDto.locationId,
