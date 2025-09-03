@@ -16,6 +16,7 @@ import { LocationModule } from './location/location.module';
 import { AirlineModule } from './airline/airline.module';
 import { AirportModule } from './airport/airport.module';
 import { FlightModule } from './flight/flight.module';
+import { TicketModule } from './ticket/ticket.module';
 
 const ENV = process.env.NODE_ENV;
 
@@ -49,6 +50,7 @@ const ENV = process.env.NODE_ENV;
     AirlineModule,
     AirportModule,
     FlightModule,
+    TicketModule,
   ],
   providers: [
     { provide: APP_GUARD, useClass: AuthenticationGuard },

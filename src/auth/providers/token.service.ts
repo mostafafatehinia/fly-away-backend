@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/users/user.entity';
 import { SignInResponse } from '../interface/signIn.response.interface';
+import { PayloadTokenResponse } from '../interface/payloadToken.response';
 
 @Injectable()
 export class TokenService {
@@ -27,7 +28,7 @@ export class TokenService {
     });
   }
 
-  async verifyToken(token: string): Promise<{ sub: string }> {
+  async verifyToken(token: string): Promise<PayloadTokenResponse> {
     try {
       return await this.jwtService.verifyAsync(token, {
         secret: this.configService.get('jwt.secret'),
@@ -39,7 +40,7 @@ export class TokenService {
     }
   }
 
-  async parseToken(token: string): Promise<{ role: string }> {
+  async parseToken(token: string): Promise<PayloadTokenResponse> {
     try {
       return await this.jwtService.decode(token);
     } catch {
