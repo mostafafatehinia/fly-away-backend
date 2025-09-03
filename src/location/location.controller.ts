@@ -1,10 +1,11 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Post, Query } from '@nestjs/common';
 import { LocationService } from './providers/location.service';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { AuthType } from 'src/auth/enums/authType.enum';
 import { LocationParamDto } from './dto/location-param.dto';
 import { CreateLocationDto } from './dto/create-location.dto';
+import { Location } from './location.entity';
 
 @Controller('location')
 export class LocationController {
@@ -15,6 +16,7 @@ export class LocationController {
     description: 'Get all locations',
   })
   @ApiResponse({
+    status: HttpStatus.OK,
     type: [CreateLocationDto],
     description: 'Successful get locations',
   })
@@ -29,10 +31,10 @@ export class LocationController {
     description: 'Create a new location',
   })
   @ApiResponse({
-    type: CreateLocationDto,
+    status: HttpStatus.CREATED,
+    type: Location,
     description: 'Successful create location',
   })
-  @Auth(AuthType.Public)
   @Post()
   createLocation(@Body() createLocationDto: CreateLocationDto) {
     return this.locationService.createLocation(createLocationDto);

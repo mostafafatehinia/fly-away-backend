@@ -1,11 +1,11 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Post, Query } from '@nestjs/common';
 import { AirlineService } from './providers/airline.service';
 import { CreateAirlineDto } from './dto/create-airline.dto';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { AirlineResponse } from './interface/create-airline.response';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { AuthType } from 'src/auth/enums/authType.enum';
 import { AirlineParamDto } from './dto/airline-param.dto';
+import { Airline } from './airline.entity';
 
 @Controller('airline')
 export class AirlineController {
@@ -13,8 +13,8 @@ export class AirlineController {
 
   @ApiOperation({ summary: 'Get all airlines' })
   @ApiResponse({
-    type: [AirlineResponse],
-    status: 200,
+    type: [Airline],
+    status: HttpStatus.OK,
     description: 'List of airlines',
   })
   @Auth(AuthType.Public)
@@ -25,8 +25,8 @@ export class AirlineController {
 
   @ApiOperation({ summary: 'Create a new airline' })
   @ApiResponse({
-    type: AirlineResponse,
-    status: 201,
+    type: Airline,
+    status: HttpStatus.CREATED,
     description: 'The airline has been successfully created.',
   })
   @Post()

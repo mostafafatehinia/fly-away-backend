@@ -13,10 +13,10 @@ import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { RefreshTokenDto } from './dto/refreshToken.dto';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { SignInResponse } from './interface/signIn.response.interface';
-import { UserResponse } from 'src/users/interface/createUser.response';
 import { RefreshTokenResponse } from './interface/refreshToken.response';
 import { Auth } from './decorators/auth.decorator';
 import { AuthType } from './enums/authType.enum';
+import { User } from 'src/users/user.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -43,7 +43,7 @@ export class AuthController {
     description: 'Sign up a user and create an account',
   })
   @ApiResponse({
-    type: UserResponse,
+    type: User,
     status: HttpStatus.CREATED,
     description: 'Successfuly signed up',
   })

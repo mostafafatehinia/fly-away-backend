@@ -26,7 +26,7 @@ export class AccessTokenGuard implements CanActivate {
     }
 
     try {
-      const payload = this.tokenService.verifyToken(accessToken);
+      const payload = await this.tokenService.verifyToken(accessToken);
       request['user'] = payload;
     } catch {
       throw new UnauthorizedException('Invalid access token');
