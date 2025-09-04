@@ -12,7 +12,7 @@ import { UpdateUserDto } from '../dto/update-user.dto';
 import { BcryptService } from 'src/auth/providers/bcrypt.service';
 
 @Injectable()
-export class UsersService {
+export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,

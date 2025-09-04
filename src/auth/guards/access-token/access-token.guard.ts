@@ -19,9 +19,9 @@ export class AccessTokenGuard implements CanActivate {
       throw new UnauthorizedException('Access token is required');
     }
 
-    const { role } = await this.tokenService.parseToken(accessToken);
+    const parsedToken = await this.tokenService.parseToken(accessToken);
 
-    if (!role) {
+    if (!parsedToken?.role) {
       throw new UnauthorizedException('Invalid access token');
     }
 

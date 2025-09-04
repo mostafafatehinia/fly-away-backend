@@ -11,16 +11,34 @@ import {
   Post,
   UseInterceptors,
   ClassSerializerInterceptor,
+  Req,
 } from '@nestjs/common';
-import { UsersService } from './providers/users.service';
+import { UserService } from './providers/user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { User } from './user.entity';
+import { PayloadTokenResponse } from 'src/auth/interface/payloadToken.response';
 
-@Controller('users')
-export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+@UseInterceptors(ClassSerializerInterceptor)
+@Controller('user')
+export class UserController {
+  constructor(private readonly UserService: UserService) {}
+
+  @ApiOperation({
+    summary: 'Get current user',
+    description: 'Retrieve the current user',
+  })
+  @ApiResponse({
+    type: User,
+    status: HttpStatus.OK,
+    description: 'User found',
+  })
+  @Get('me')
+  me(@Req() req: Request) {
+    const userPayload = req['user'] as PayloadTokenResponse;
+    return this.UserService.findOne(userPayload.sub);
+  }
 
   @ApiOperation({
     summary: 'Get user by ID',
@@ -33,7 +51,7 @@ export class UsersController {
   })
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.usersService.findOne(id);
+    return this.UserService.findOne(id);
   }
 
   @ApiOperation({
@@ -46,9 +64,8 @@ export class UsersController {
     description: 'User has been created',
   })
   @Post()
-  @UseInterceptors(ClassSerializerInterceptor)
   create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.createUser(createUserDto);
+    return this.UserService.createUser(createUserDto);
   }
 
   @ApiOperation({
@@ -65,7 +82,7 @@ export class UsersController {
     @Body() updateUserDto: UpdateUserDto,
     @Param('id', new ParseUUIDPipe()) id: string,
   ) {
-    return this.usersService.updateUser(id, updateUserDto);
+    return this.UserService.updateUser(id, updateUserDto);
   }
 
   @ApiOperation({
@@ -79,6 +96,6 @@ export class UsersController {
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   remove(@Param('id', new ParseUUIDPipe()) id: string) {
-    return this.usersService.deleteUser(id);
+    return this.UserService.deleteUser(id);
   }
 }

@@ -10,7 +10,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateTicketDto } from '../dto/create-ticket.dto';
 import { FlightService } from 'src/flight/providers/flight.service';
-import { UsersService } from 'src/users/providers/users.service';
+import { UserService } from 'src/user/providers/user.service';
 import { isDbError } from 'src/utils/isDbError.util';
 import { Request } from 'express';
 import { PayloadTokenResponse } from 'src/auth/interface/payloadToken.response';
@@ -23,7 +23,7 @@ export class TicketService {
     @InjectRepository(Ticket)
     private readonly ticketRepository: Repository<Ticket>,
     private readonly flightService: FlightService,
-    private readonly userService: UsersService,
+    private readonly userService: UserService,
   ) {}
 
   async create(createTicketDto: CreateTicketDto, request: Request) {
@@ -66,6 +66,14 @@ export class TicketService {
 
   async findOneById(id: string) {
     return await this.ticketRepository.findOneBy({ id });
+  }
+
+  async findAllByUser(request: Request) {
+    const userPayload = request['user'] as PayloadTokenResponse;
+    const userId = userPayload.sub;
+    return await this.ticketRepository.find({
+      where: { user: { id: userId } },
+    });
   }
 
   async findAll() {
