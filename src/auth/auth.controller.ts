@@ -9,14 +9,14 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './providers/auth.service';
 import { SignInDto } from './dto/signIn.dto';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { RefreshTokenDto } from './dto/refreshToken.dto';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { SignInResponse } from './interface/signIn.response.interface';
 import { RefreshTokenResponse } from './interface/refreshToken.response';
 import { Auth } from './decorators/auth.decorator';
 import { AuthType } from './enums/authType.enum';
-import { User } from 'src/users/user.entity';
+import { User } from 'src/user/user.entity';
 
 @Controller('auth')
 export class AuthController {

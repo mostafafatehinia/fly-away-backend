@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { STATUS } from 'src/enums/ticket.enum';
 import { Flight } from 'src/flight/flight.entity';
-import { User } from 'src/users/user.entity';
+import { User } from 'src/user/user.entity';
 import {
   Column,
   CreateDateColumn,
