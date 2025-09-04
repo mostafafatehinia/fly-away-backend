@@ -13,6 +13,7 @@ async function bootstrap() {
       forbidUnknownValues: true,
     }),
   );
+  app.setGlobalPrefix('api');
 
   const config = new DocumentBuilder()
     .setTitle('Fly Away API')
