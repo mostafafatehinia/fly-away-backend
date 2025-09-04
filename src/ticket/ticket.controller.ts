@@ -35,6 +35,17 @@ export class TicketController {
     return this.ticketService.create(createTicketDto, request);
   }
 
+  @ApiOperation({ summary: 'Get current user tickets' })
+  @ApiResponse({
+    type: [Ticket],
+    status: HttpStatus.OK,
+    description: 'The tickets have been successfully retrieved.',
+  })
+  @Get('me')
+  findAllByUser(@Req() request: Request) {
+    return this.ticketService.findAllByUser(request);
+  }
+
   @ApiOperation({ summary: 'Get a ticket by id' })
   @ApiResponse({
     type: Ticket,

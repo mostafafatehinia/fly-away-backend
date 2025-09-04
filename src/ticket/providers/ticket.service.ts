@@ -68,6 +68,14 @@ export class TicketService {
     return await this.ticketRepository.findOneBy({ id });
   }
 
+  async findAllByUser(request: Request) {
+    const userPayload = request['user'] as PayloadTokenResponse;
+    const userId = userPayload.sub;
+    return await this.ticketRepository.find({
+      where: { user: { id: userId } },
+    });
+  }
+
   async findAll() {
     return await this.ticketRepository.find();
   }
