@@ -18,6 +18,7 @@ import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CreateTicketDto } from './dto/create-ticket.dto';
 import type { Request } from 'express';
 import { UpdateTicketDto } from './dto/update-ticket.dto';
+import { SuccessMessage } from 'src/decorators/success-message/success-message.decorator';
 
 @Controller('ticket')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -30,6 +31,7 @@ export class TicketController {
     status: HttpStatus.CREATED,
     description: 'The ticket has been successfully created.',
   })
+  @SuccessMessage('Successfuly created ticket')
   @Post()
   create(@Body() createTicketDto: CreateTicketDto, @Req() request: Request) {
     return this.ticketService.create(createTicketDto, request);
@@ -41,6 +43,7 @@ export class TicketController {
     status: HttpStatus.OK,
     description: 'The tickets have been successfully retrieved.',
   })
+  @SuccessMessage('Successfuly get current user tickets')
   @Get('me')
   findAllByUser(@Req() request: Request) {
     return this.ticketService.findAllByUser(request);
@@ -52,6 +55,7 @@ export class TicketController {
     status: HttpStatus.OK,
     description: 'The ticket has been successfully retrieved.',
   })
+  @SuccessMessage('Successfuly get ticket by id')
   @Get(':id')
   findOneById(@Param('id') id: string) {
     return this.ticketService.findOneById(id);
@@ -63,6 +67,7 @@ export class TicketController {
     status: HttpStatus.OK,
     description: 'The tickets have been successfully retrieved.',
   })
+  @SuccessMessage('Successfuly get all tickets')
   @Get()
   findAll() {
     return this.ticketService.findAll();
@@ -74,6 +79,7 @@ export class TicketController {
     status: HttpStatus.OK,
     description: 'The ticket has been successfully updated.',
   })
+  @SuccessMessage('Successfuly update ticket by id')
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateTicketDto: UpdateTicketDto) {
     return this.ticketService.update(id, updateTicketDto);
@@ -84,6 +90,7 @@ export class TicketController {
     status: HttpStatus.NO_CONTENT,
     description: 'The ticket has been successfully deleted.',
   })
+  @SuccessMessage('Successfuly delete ticket by id')
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   delete(@Param('id') id: string) {

@@ -19,6 +19,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { User } from './user.entity';
 import { PayloadTokenResponse } from 'src/auth/interface/payloadToken.response';
+import { SuccessMessage } from 'src/decorators/success-message/success-message.decorator';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('user')
@@ -34,6 +35,7 @@ export class UserController {
     status: HttpStatus.OK,
     description: 'User found',
   })
+  @SuccessMessage('Successfuly get current user')
   @Get('me')
   me(@Req() req: Request) {
     const userPayload = req['user'] as PayloadTokenResponse;
@@ -49,6 +51,7 @@ export class UserController {
     status: HttpStatus.OK,
     description: 'User found',
   })
+  @SuccessMessage('Successfuly get user by id')
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.UserService.findOne(id);
@@ -63,6 +66,7 @@ export class UserController {
     status: HttpStatus.CREATED,
     description: 'User has been created',
   })
+  @SuccessMessage('Successfuly create user')
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.UserService.createUser(createUserDto);
@@ -77,6 +81,7 @@ export class UserController {
     status: HttpStatus.OK,
     description: 'User has been updated',
   })
+  @SuccessMessage('Successfuly update user by id')
   @Patch(':id')
   update(
     @Body() updateUserDto: UpdateUserDto,
@@ -93,6 +98,7 @@ export class UserController {
     status: HttpStatus.NO_CONTENT,
     description: 'User has been deleted',
   })
+  @SuccessMessage('Successfuly delete user by id')
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   remove(@Param('id', new ParseUUIDPipe()) id: string) {

@@ -6,6 +6,7 @@ import { Auth } from 'src/auth/decorators/auth.decorator';
 import { AuthType } from 'src/auth/enums/authType.enum';
 import { AirlineParamDto } from './dto/airline-param.dto';
 import { Airline } from './airline.entity';
+import { SuccessMessage } from 'src/decorators/success-message/success-message.decorator';
 
 @Controller('airline')
 export class AirlineController {
@@ -18,6 +19,7 @@ export class AirlineController {
     description: 'List of airlines',
   })
   @Auth(AuthType.Public)
+  @SuccessMessage('Successfuly get airlines')
   @Get()
   findAll(@Query() airlineParamDto: AirlineParamDto) {
     return this.airlineService.findAll(airlineParamDto);
@@ -29,6 +31,7 @@ export class AirlineController {
     status: HttpStatus.CREATED,
     description: 'The airline has been successfully created.',
   })
+  @SuccessMessage('Successfuly created airline')
   @Post()
   create(@Body() createAirlineDto: CreateAirlineDto) {
     return this.airlineService.create(createAirlineDto);

@@ -6,6 +6,7 @@ import { AuthType } from 'src/auth/enums/authType.enum';
 import { LocationParamDto } from './dto/location-param.dto';
 import { CreateLocationDto } from './dto/create-location.dto';
 import { Location } from './location.entity';
+import { SuccessMessage } from 'src/decorators/success-message/success-message.decorator';
 
 @Controller('location')
 export class LocationController {
@@ -21,6 +22,7 @@ export class LocationController {
     description: 'Successful get locations',
   })
   @Auth(AuthType.Public)
+  @SuccessMessage('Successfuly get locations')
   @Get()
   findAll(@Query() { search }: LocationParamDto) {
     return this.locationService.findAll(search);
@@ -35,6 +37,7 @@ export class LocationController {
     type: Location,
     description: 'Successful create location',
   })
+  @SuccessMessage('Successfuly create location')
   @Post()
   createLocation(@Body() createLocationDto: CreateLocationDto) {
     return this.locationService.createLocation(createLocationDto);
