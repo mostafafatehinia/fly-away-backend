@@ -1,98 +1,263 @@
+# Fly Away - Flight Booking API
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A comprehensive flight booking system built with NestJS, TypeScript, and PostgreSQL. This API provides complete functionality for managing flights, airlines, airports, locations, users, and ticket bookings.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 🚀 Features
 
-## Description
+### Core Modules
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- **Authentication System** - JWT-based authentication with role-based access control
+- **User Management** - User registration, login, and profile management
+- **Location Management** - Cities and countries management
+- **Airline Management** - Airline companies and their information
+- **Airport Management** - Airport details with location associations
+- **Flight Management** - Flight scheduling, search, and management
+- **Ticket Booking** - Flight ticket booking and management
 
-## Project setup
+### Technical Features
 
-```bash
-$ yarn install
-```
+- **RESTful API** with comprehensive Swagger documentation
+- **Database Integration** with TypeORM and PostgreSQL
+- **Input Validation** using class-validator and class-transformer
+- **Global Response Interceptor** for consistent API responses
+- **Pagination Support** for all list endpoints
+- **Search Functionality** across relevant entities
+- **Role-based Authorization** (User, Admin, Manager, Super Admin)
+- **Environment Configuration** with validation
+- **Error Handling** with custom exceptions
 
-## Compile and run the project
+## 🛠️ Tech Stack
 
-```bash
-# development
-$ yarn run start
+- **Framework**: NestJS
+- **Language**: TypeScript
+- **Database**: PostgreSQL
+- **ORM**: TypeORM
+- **Authentication**: JWT
+- **Validation**: class-validator, class-transformer
+- **Documentation**: Swagger/OpenAPI
+- **Password Hashing**: bcrypt
 
-# watch mode
-$ yarn run start:dev
+## 📋 Prerequisites
 
-# production mode
-$ yarn run start:prod
-```
+- Node.js (v18 or higher)
+- PostgreSQL database
+- Yarn package manager
 
-## Run tests
+## 🚀 Getting Started
 
-```bash
-# unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
-```
-
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### 1. Clone the repository
 
 ```bash
-$ yarn install -g @nestjs/mau
-$ mau deploy
+git clone <repository-url>
+cd fly-away
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### 2. Install dependencies
 
-## Resources
+```bash
+yarn install
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+### 3. Environment Setup
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+Create a `.env.local` file in the root directory with the following variables:
 
-## Support
+```env
+# Database Configuration
+DATABASE_HOST=localhost
+DATABASE_PORT=5432
+DATABASE_USERNAME=your_username
+DATABASE_PASSWORD=your_password
+DATABASE_DATABASE=fly_away
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+# JWT Configuration
+JWT_SECRET=your_jwt_secret_key
+JWT_EXPIRES_IN=15m
+JWT_REFRESH_SECRET=your_refresh_secret_key
+JWT_REFRESH_EXPIRES_IN=7d
 
-## Stay in touch
+# Application Configuration
+PORT=3000
+NODE_ENV=development
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### 4. Database Setup
 
-## License
+Make sure PostgreSQL is running and create a database named `fly_away` (or update the environment variable).
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+### 5. Run the application
+
+```bash
+# Development mode
+yarn run start:dev
+
+# Production mode
+yarn run start:prod
+```
+
+The API will be available at `http://localhost:3000/api`
+
+## 📚 API Documentation
+
+Once the application is running, you can access the interactive Swagger documentation at:
+
+- **Swagger UI**: `http://localhost:3000/docs`
+
+## 🏗️ Project Structure
+
+```
+src/
+├── auth/                    # Authentication module
+│   ├── decorators/         # Auth decorators
+│   ├── dto/               # Auth DTOs
+│   ├── enums/             # Auth enums
+│   ├── guards/            # Authentication guards
+│   ├── interface/         # Auth interfaces
+│   └── providers/         # Auth services
+├── airline/               # Airline management
+├── airport/               # Airport management
+├── configs/               # Configuration files
+├── decorators/            # Custom decorators
+├── enums/                 # Application enums
+├── flight/                # Flight management
+├── interceptors/          # Global interceptors
+├── location/              # Location management
+├── ticket/                # Ticket booking
+├── user/                  # User management
+├── utils/                 # Utility functions
+└── validations/           # Environment validation
+```
+
+## 🔐 Authentication
+
+The API uses JWT-based authentication with the following endpoints:
+
+- `POST /api/auth/sign-up` - User registration
+- `POST /api/auth/sign-in` - User login
+- `POST /api/auth/refresh-token` - Token refresh
+
+### User Roles
+
+- **USER** - Basic user access
+- **ADMIN** - Administrative access
+- **MANAGER** - Management access
+- **SUPER_ADMIN** - Full system access
+
+## 📊 API Response Format
+
+### Success Response
+
+```json
+{
+  "data": <response_data>,
+  "message": "Success message"
+}
+```
+
+### Error Response
+
+```json
+{
+  "error": "Error message",
+  "statusCode": 400
+}
+```
+
+## 🔍 Key Endpoints
+
+### Authentication
+
+- `POST /api/auth/sign-up` - Register new user
+- `POST /api/auth/sign-in` - User login
+- `POST /api/auth/refresh-token` - Refresh access token
+
+### Locations
+
+- `GET /api/location` - Get all locations (with pagination & search)
+- `POST /api/location` - Create new location
+
+### Airlines
+
+- `GET /api/airline` - Get all airlines (with pagination & search)
+- `POST /api/airline` - Create new airline
+
+### Airports
+
+- `GET /api/airport` - Get all airports (with pagination & search)
+- `POST /api/airport` - Create new airport
+
+### Flights
+
+- `GET /api/flight` - Get all flights (with pagination & search)
+- `POST /api/flight` - Create new flight
+- `GET /api/flight/:id` - Get flight by ID
+
+### Tickets
+
+- `GET /api/ticket` - Get user tickets (with pagination)
+- `POST /api/ticket` - Book new ticket
+- `GET /api/ticket/:id` - Get ticket by ID
+
+## 🧪 Testing
+
+```bash
+# Unit tests
+yarn run test
+
+# E2E tests
+yarn run test:e2e
+
+# Test coverage
+yarn run test:cov
+```
+
+## 🚀 Deployment
+
+The application is configured for easy deployment with environment-specific configurations. Make sure to:
+
+1. Set up production environment variables
+2. Configure your PostgreSQL database
+3. Update the `NODE_ENV` to `production`
+4. Run `yarn run start:prod`
+
+## 📝 Development
+
+### Code Style
+
+The project uses ESLint and Prettier for code formatting:
+
+```bash
+# Format code
+yarn run format
+
+# Lint code
+yarn run lint
+```
+
+### Database Migrations
+
+The application uses TypeORM with auto-synchronization in development mode. For production, consider using proper migrations.
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+## 🆘 Support
+
+For support and questions, please open an issue in the repository or contact the development team.
+
+---
+
+Built with ❤️ using NestJS
