@@ -12,12 +12,13 @@ import {
 } from '@nestjs/common';
 import { FlightService } from './providers/flight.service';
 import { CreateFlightDto } from './dto/create-flight.dto';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Flight } from './flight.entity';
 import { UpdateFlightDto } from './dto/update-flight.dto';
 import { SuccessMessage } from 'src/decorators/success-message/success-message.decorator';
 import { FlightParamDto } from './dto/flight-param.dto';
 
+@ApiBearerAuth('JWT-auth')
 @Controller('flight')
 export class FlightController {
   constructor(private readonly flightService: FlightService) {}

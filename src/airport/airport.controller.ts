@@ -1,11 +1,12 @@
 import { Body, Controller, Get, HttpStatus, Post, Query } from '@nestjs/common';
 import { AirportService } from './providers/airport.service';
 import { CreateAirportDto } from './dto/create-airport.dto';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Airport } from './airport.entity';
 import { AirportParamDto } from './dto/airport-param.dto';
 import { SuccessMessage } from 'src/decorators/success-message/success-message.decorator';
 
+@ApiBearerAuth('JWT-auth')
 @Controller('airport')
 export class AirportController {
   constructor(private readonly airportService: AirportService) {}

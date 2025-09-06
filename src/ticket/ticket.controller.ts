@@ -15,15 +15,16 @@ import {
 } from '@nestjs/common';
 import { TicketService } from './providers/ticket.service';
 import { Ticket } from './ticket.entity';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CreateTicketDto } from './dto/create-ticket.dto';
 import type { Request } from 'express';
 import { UpdateTicketDto } from './dto/update-ticket.dto';
 import { SuccessMessage } from 'src/decorators/success-message/success-message.decorator';
 import { TicketParamDto } from './dto/ticket-param.dto';
 
-@Controller('ticket')
+@ApiBearerAuth('JWT-auth')
 @UseInterceptors(ClassSerializerInterceptor)
+@Controller('ticket')
 export class TicketController {
   constructor(private readonly ticketService: TicketService) {}
 
