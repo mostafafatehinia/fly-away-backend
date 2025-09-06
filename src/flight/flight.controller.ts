@@ -8,12 +8,15 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { FlightService } from './providers/flight.service';
 import { CreateFlightDto } from './dto/create-flight.dto';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Flight } from './flight.entity';
 import { UpdateFlightDto } from './dto/update-flight.dto';
+import { SuccessMessage } from 'src/decorators/success-message/success-message.decorator';
+import { FlightParamDto } from './dto/flight-param.dto';
 
 @Controller('flight')
 export class FlightController {
@@ -28,9 +31,10 @@ export class FlightController {
     status: HttpStatus.OK,
     description: 'Get all flights list',
   })
+  @SuccessMessage('Successfuly get flights list')
   @Get()
-  findAll() {
-    return this.flightService.findAll();
+  findAll(@Query() flightParamDto: FlightParamDto) {
+    return this.flightService.findAll(flightParamDto);
   }
 
   @ApiOperation({
@@ -42,6 +46,7 @@ export class FlightController {
     status: HttpStatus.OK,
     description: 'Successful get flight by id',
   })
+  @SuccessMessage('Successfuly get flight by id')
   @Get(':id')
   findById(@Param('id') id: string) {
     return this.flightService.findById(id);
@@ -56,6 +61,7 @@ export class FlightController {
     status: HttpStatus.CREATED,
     description: 'Successful create flight',
   })
+  @SuccessMessage('Successfuly create flight')
   @Post()
   create(@Body() createFlightDto: CreateFlightDto) {
     return this.flightService.create(createFlightDto);
@@ -70,6 +76,7 @@ export class FlightController {
     status: HttpStatus.OK,
     description: 'Successful update flight by id',
   })
+  @SuccessMessage('Successfuly update flight by id')
   @Patch()
   update(@Body() updateFlightDto: UpdateFlightDto) {
     return this.flightService.update(updateFlightDto);
@@ -83,6 +90,7 @@ export class FlightController {
     status: HttpStatus.NO_CONTENT,
     description: 'Successful delete flight by id',
   })
+  @SuccessMessage('Successfuly delete flight by id')
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   delete(@Param('id') id: string) {

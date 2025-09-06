@@ -17,12 +17,27 @@ export class AirlineService {
     private readonly airlineRepository: Repository<Airline>,
   ) {}
 
-  async findAll({ search }: AirlineParamDto): Promise<Airline[]> {
-    return this.airlineRepository.find({
+  async findAll(airlineParamDto: AirlineParamDto) {
+    const { offset, limit, search } = airlineParamDto;
+    const skip = offset ?? 0;
+    const take = limit ?? 10;
+
+    const [airlines, total] = await this.airlineRepository.findAndCount({
       where: search
         ? { name: Raw((alias) => `LOWER(${alias}) ILike '%${search}%'`) }
         : undefined,
+      skip,
+      take,
     });
+    return {
+      airlines,
+      meta: {
+        total,
+        offset,
+        limit,
+        totalPages: Math.ceil(total / (limit ?? 10)),
+      },
+    };
   }
 
   async findById(id: string) {

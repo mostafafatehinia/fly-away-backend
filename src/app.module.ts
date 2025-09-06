@@ -10,13 +10,14 @@ import jwtConfig from './configs/jwt.config';
 import { environmentConfigValidation } from './validations/environment.validation';
 import { AuthModule } from './auth/auth.module';
 import { AuthenticationGuard } from './auth/guards/authentication/authentication.guard';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { AccessTokenGuard } from './auth/guards/access-token/access-token.guard';
 import { LocationModule } from './location/location.module';
 import { AirlineModule } from './airline/airline.module';
 import { AirportModule } from './airport/airport.module';
 import { FlightModule } from './flight/flight.module';
 import { TicketModule } from './ticket/ticket.module';
+import { TransformInterceptor } from './interceptors/transform-response.interceptor';
 
 const ENV = process.env.NODE_ENV;
 
@@ -53,6 +54,7 @@ const ENV = process.env.NODE_ENV;
     TicketModule,
   ],
   providers: [
+    { provide: APP_INTERCEPTOR, useClass: TransformInterceptor },
     { provide: APP_GUARD, useClass: AuthenticationGuard },
     AccessTokenGuard,
   ],

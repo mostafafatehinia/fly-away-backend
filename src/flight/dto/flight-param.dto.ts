@@ -2,11 +2,11 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional, IsString } from 'class-validator';
 import { PaginationDto } from 'src/dto/pagination.dto';
 
-export class AirportParamDto extends PaginationDto {
+export class FlightParamDto extends PaginationDto {
   @ApiProperty({
-    description: 'Search term for filtering airports',
+    description: 'Search term for filtering flights',
     required: false,
-    example: 'New York',
+    example: 'AA123',
   })
   @IsString()
   @IsOptional()

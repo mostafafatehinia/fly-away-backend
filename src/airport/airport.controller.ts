@@ -1,11 +1,10 @@
 import { Body, Controller, Get, HttpStatus, Post, Query } from '@nestjs/common';
 import { AirportService } from './providers/airport.service';
 import { CreateAirportDto } from './dto/create-airport.dto';
-import { Auth } from 'src/auth/decorators/auth.decorator';
-import { AuthType } from 'src/auth/enums/authType.enum';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Airport } from './airport.entity';
 import { AirportParamDto } from './dto/airport-param.dto';
+import { SuccessMessage } from 'src/decorators/success-message/success-message.decorator';
 
 @Controller('airport')
 export class AirportController {
@@ -20,10 +19,10 @@ export class AirportController {
     type: [CreateAirportDto],
     description: 'Successful get airports',
   })
-  @Auth(AuthType.Public)
+  @SuccessMessage('Successfuly get airports')
   @Get()
-  findAll(@Query() { search }: AirportParamDto) {
-    return this.airportService.findAll(search);
+  findAll(@Query() airportParamDto: AirportParamDto) {
+    return this.airportService.findAll(airportParamDto);
   }
 
   @ApiOperation({
@@ -35,6 +34,7 @@ export class AirportController {
     type: Airport,
     description: 'Successful create airport',
   })
+  @SuccessMessage('Successfuly created airport')
   @Post()
   create(@Body() createAirportDto: CreateAirportDto) {
     return this.airportService.create(createAirportDto);

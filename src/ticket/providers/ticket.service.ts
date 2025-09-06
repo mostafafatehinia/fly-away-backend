@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { Ticket } from '../ticket.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Raw, Repository } from 'typeorm';
 import { CreateTicketDto } from '../dto/create-ticket.dto';
 import { FlightService } from 'src/flight/providers/flight.service';
 import { UserService } from 'src/user/providers/user.service';
@@ -16,6 +16,7 @@ import { Request } from 'express';
 import { PayloadTokenResponse } from 'src/auth/interface/payloadToken.response';
 import { UpdateTicketDto } from '../dto/update-ticket.dto';
 import { Flight } from 'src/flight/flight.entity';
+import { TicketParamDto } from '../dto/ticket-param.dto';
 
 @Injectable()
 export class TicketService {
@@ -68,16 +69,57 @@ export class TicketService {
     return await this.ticketRepository.findOneBy({ id });
   }
 
-  async findAllByUser(request: Request) {
+  async findAllByUser(request: Request, ticketParamDto: TicketParamDto) {
     const userPayload = request['user'] as PayloadTokenResponse;
     const userId = userPayload.sub;
-    return await this.ticketRepository.find({
-      where: { user: { id: userId } },
+    const { offset, limit, search } = ticketParamDto;
+    const skip = offset ?? 0;
+    const take = limit ?? 10;
+
+    const [tickets, total] = await this.ticketRepository.findAndCount({
+      where: {
+        user: { id: userId },
+        seatNumber: search
+          ? Raw((alias) => `LOWER(${alias}) ILike '%${search}%'`)
+          : undefined,
+      },
+      skip,
+      take,
     });
+
+    return {
+      tickets,
+      meta: {
+        total,
+        offset,
+        limit,
+        totalPages: Math.ceil(total / (limit ?? 10)),
+      },
+    };
   }
 
-  async findAll() {
-    return await this.ticketRepository.find();
+  async findAll(ticketParamDto: TicketParamDto) {
+    const { offset, limit, search } = ticketParamDto;
+    const skip = offset ?? 0;
+    const take = limit ?? 10;
+
+    const [tickets, total] = await this.ticketRepository.findAndCount({
+      where: search
+        ? { seatNumber: Raw((alias) => `LOWER(${alias}) ILike '%${search}%'`) }
+        : undefined,
+      skip,
+      take,
+    });
+
+    return {
+      tickets,
+      meta: {
+        total,
+        offset,
+        limit,
+        totalPages: Math.ceil(total / (limit ?? 10)),
+      },
+    };
   }
 
   async update(id: string, updateTicketDto: UpdateTicketDto) {

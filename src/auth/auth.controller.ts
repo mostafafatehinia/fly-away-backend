@@ -17,6 +17,7 @@ import { RefreshTokenResponse } from './interface/refreshToken.response';
 import { Auth } from './decorators/auth.decorator';
 import { AuthType } from './enums/authType.enum';
 import { User } from 'src/user/user.entity';
+import { SuccessMessage } from 'src/decorators/success-message/success-message.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -33,6 +34,7 @@ export class AuthController {
   })
   @HttpCode(HttpStatus.OK)
   @Auth(AuthType.Public)
+  @SuccessMessage('Successfuly signed in')
   @Post('sign-in')
   signIn(@Body() signInDto: SignInDto) {
     return this.authService.signIn(signInDto);
@@ -49,6 +51,7 @@ export class AuthController {
   })
   @UseInterceptors(ClassSerializerInterceptor)
   @Auth(AuthType.Public)
+  @SuccessMessage('Successfuly signed up')
   @Post('sign-up')
   signUp(@Body() createUserDto: CreateUserDto) {
     return this.authService.signUp(createUserDto);
@@ -65,6 +68,7 @@ export class AuthController {
   })
   @HttpCode(HttpStatus.OK)
   @Auth(AuthType.Public)
+  @SuccessMessage('Successfuly refreshed token')
   @Post('refresh-token')
   refreshToken(@Body() refreshTokenDto: RefreshTokenDto) {
     return this.authService.refreshToken(refreshTokenDto.refresh);
