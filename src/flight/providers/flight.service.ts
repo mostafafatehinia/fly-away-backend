@@ -5,7 +5,7 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { Raw, Repository } from 'typeorm';
 import { Flight } from '../flight.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateFlightDto } from '../dto/create-flight.dto';
@@ -15,6 +15,7 @@ import { isDbError } from 'src/utils/isDbError.util';
 import { UpdateFlightDto } from '../dto/update-flight.dto';
 import { Airline } from 'src/airline/airline.entity';
 import { Airport } from 'src/airport/airport.entity';
+import { FlightParamDto } from '../dto/flight-param.dto';
 
 @Injectable()
 export class FlightService {
@@ -26,8 +27,30 @@ export class FlightService {
     private readonly airPortService: AirportService,
   ) {}
 
-  async findAll() {
-    return await this.flightRepository.find();
+  async findAll(flightParamDto: FlightParamDto) {
+    const { offset, limit, search } = flightParamDto;
+    const skip = offset ?? 0;
+    const take = limit ?? 10;
+
+    const [flights, total] = await this.flightRepository.findAndCount({
+      where: search
+        ? { number: Raw((alias) => `LOWER(${alias}) ILike '%${search}%'`) }
+        : undefined,
+      skip,
+      take,
+    });
+
+    console.log(flights);
+
+    return {
+      flights,
+      meta: {
+        total,
+        offset,
+        limit,
+        totalPages: Math.ceil(total / (limit ?? 10)),
+      },
+    };
   }
 
   async create(createFlightDto: CreateFlightDto) {

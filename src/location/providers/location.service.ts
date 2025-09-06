@@ -3,6 +3,7 @@ import { Raw, Repository } from 'typeorm';
 import { Location } from '../location.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateLocationDto } from '../dto/create-location.dto';
+import { LocationParamDto } from '../dto/location-param.dto';
 
 @Injectable()
 export class LocationService {
@@ -11,12 +12,29 @@ export class LocationService {
     private readonly locationRepository: Repository<Location>,
   ) {}
 
-  findAll(search?: string) {
-    return this.locationRepository.find({
+  async findAll(locationParamDto: LocationParamDto) {
+    const { offset, limit, search } = locationParamDto;
+    const skip = offset ?? 0;
+    const take = limit ?? 10;
+
+    const [locations, total] = await this.locationRepository.findAndCount({
       where: search
-        ? { name: Raw((alias) => `LOWER(${alias}) ILike '%${search}%'`) }
+        ? {
+            name: Raw((alias) => `LOWER(${alias}) ILike '%${search}%'`),
+          }
         : undefined,
+      skip,
+      take,
     });
+    return {
+      locations,
+      meta: {
+        total,
+        offset,
+        limit,
+        totalPages: Math.ceil(total / (limit ?? 10)),
+      },
+    };
   }
 
   async findById(id: string): Promise<Location | null> {

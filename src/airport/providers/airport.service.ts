@@ -10,6 +10,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateAirportDto } from '../dto/create-airport.dto';
 import { LocationService } from 'src/location/providers/location.service';
 import { isDbError } from 'src/utils/isDbError.util';
+import { AirportParamDto } from '../dto/airport-param.dto';
 
 @Injectable()
 export class AirportService {
@@ -19,12 +20,28 @@ export class AirportService {
     private readonly locationService: LocationService,
   ) {}
 
-  async findAll(search?: string): Promise<Airport[]> {
-    return this.airportRepository.find({
+  async findAll(airportParamDto: AirportParamDto) {
+    const { offset, limit, search } = airportParamDto;
+    const skip = offset ?? 0;
+    const take = limit ?? 10;
+
+    const [airports, total] = await this.airportRepository.findAndCount({
       where: search
         ? { name: Raw((alias) => `LOWER(${alias}) ILike '%${search}%'`) }
         : undefined,
+      skip,
+      take,
     });
+
+    return {
+      airports,
+      meta: {
+        total,
+        offset,
+        limit,
+        totalPages: Math.ceil(total / (limit ?? 10)),
+      },
+    };
   }
 
   async findById(id: string) {

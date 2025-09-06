@@ -9,6 +9,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   Req,
   UseInterceptors,
 } from '@nestjs/common';
@@ -19,6 +20,7 @@ import { CreateTicketDto } from './dto/create-ticket.dto';
 import type { Request } from 'express';
 import { UpdateTicketDto } from './dto/update-ticket.dto';
 import { SuccessMessage } from 'src/decorators/success-message/success-message.decorator';
+import { TicketParamDto } from './dto/ticket-param.dto';
 
 @Controller('ticket')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -45,8 +47,11 @@ export class TicketController {
   })
   @SuccessMessage('Successfuly get current user tickets')
   @Get('me')
-  findAllByUser(@Req() request: Request) {
-    return this.ticketService.findAllByUser(request);
+  findAllByUser(
+    @Req() request: Request,
+    @Query() ticketParamDto: TicketParamDto,
+  ) {
+    return this.ticketService.findAllByUser(request, ticketParamDto);
   }
 
   @ApiOperation({ summary: 'Get a ticket by id' })
@@ -69,8 +74,8 @@ export class TicketController {
   })
   @SuccessMessage('Successfuly get all tickets')
   @Get()
-  findAll() {
-    return this.ticketService.findAll();
+  findAll(@Query() ticketParamDto: TicketParamDto) {
+    return this.ticketService.findAll(ticketParamDto);
   }
 
   @ApiOperation({ summary: 'Update a ticket' })

@@ -8,6 +8,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { FlightService } from './providers/flight.service';
 import { CreateFlightDto } from './dto/create-flight.dto';
@@ -15,6 +16,7 @@ import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Flight } from './flight.entity';
 import { UpdateFlightDto } from './dto/update-flight.dto';
 import { SuccessMessage } from 'src/decorators/success-message/success-message.decorator';
+import { FlightParamDto } from './dto/flight-param.dto';
 
 @Controller('flight')
 export class FlightController {
@@ -31,8 +33,8 @@ export class FlightController {
   })
   @SuccessMessage('Successfuly get flights list')
   @Get()
-  findAll() {
-    return this.flightService.findAll();
+  findAll(@Query() flightParamDto: FlightParamDto) {
+    return this.flightService.findAll(flightParamDto);
   }
 
   @ApiOperation({
