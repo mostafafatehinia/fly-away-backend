@@ -1,11 +1,12 @@
 import { Body, Controller, Get, HttpStatus, Post, Query } from '@nestjs/common';
 import { LocationService } from './providers/location.service';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { LocationParamDto } from './dto/location-param.dto';
 import { CreateLocationDto } from './dto/create-location.dto';
 import { Location } from './location.entity';
 import { SuccessMessage } from 'src/decorators/success-message/success-message.decorator';
 
+@ApiBearerAuth('JWT-auth')
 @Controller('location')
 export class LocationController {
   constructor(private readonly locationService: LocationService) {}

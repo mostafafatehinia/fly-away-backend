@@ -17,8 +17,19 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Fly Away API')
-    .setDescription('The fly away API description')
+    .setDescription('The Fly Away API description')
     .setVersion('1.0')
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        name: 'JWT',
+        description: 'Enter JWT token',
+        in: 'header',
+      },
+      'JWT-auth',
+    )
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, documentFactory, {

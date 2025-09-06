@@ -16,11 +16,12 @@ import {
 import { UserService } from './providers/user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { User } from './user.entity';
 import { PayloadTokenResponse } from 'src/auth/interface/payloadToken.response';
 import { SuccessMessage } from 'src/decorators/success-message/success-message.decorator';
 
+@ApiBearerAuth('JWT-auth')
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('user')
 export class UserController {
